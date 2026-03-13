@@ -135,55 +135,91 @@ function App() {
   const shopItems = [
     {
       title: "Batman 'STOP — Bring Coffee' Sign",
-      desc: "The original. Aerosol on metal road sign. One off.",
+      desc: "The original. Aerosol on metal road sign. Bold, funny, one of a kind.",
       price: "£POA",
       tag: "ORIGINAL",
       tagColor: "#FF2D55",
+      img: img('artwork-batman.png'),
       href: "https://your-shopify-store.myshopify.com/products/batman-stop-sign",
       available: true,
     },
     {
+      title: "GAS FTN STOP — Monster Sign",
+      desc: "Painted metal stop sign with Rat Fink-style monster. Aged, raw, and seriously cool.",
+      price: "£250",
+      tag: "FOR SALE",
+      tagColor: "#FF2D55",
+      img: img('gas-stop-sign.png'),
+      href: "https://your-shopify-store.myshopify.com/products/gas-stop-sign",
+      available: true,
+    },
+    {
+      title: "Fuck the Rules — Give Way Sign",
+      desc: "Painted give way road sign. Eagle, smiley, spider webs, rusted vibes.",
+      price: "£POA",
+      tag: "FOR SALE",
+      tagColor: "#FF2D55",
+      img: img('giveway-sign.png'),
+      href: "https://your-shopify-store.myshopify.com/products/give-way-sign",
+      available: true,
+    },
+    {
+      title: "Anarchy Portrait — Framed",
+      desc: "Airbrushed b&w portrait with anarchy symbol. Framed and ready to hang.",
+      price: "£50",
+      tag: "FOR SALE",
+      tagColor: "#FFD600",
+      img: img('portrait-anarchy.png'),
+      href: "https://your-shopify-store.myshopify.com/products/anarchy-portrait",
+      available: true,
+    },
+    {
+      title: "Man Cave — Painted Saw",
+      desc: "Hand-painted saw blade with caveman scene. Statement piece for any wall.",
+      price: "£POA",
+      tag: "FOR SALE",
+      tagColor: "#FFD600",
+      img: img('mancave-saw.png'),
+      href: "https://your-shopify-store.myshopify.com/products/mancave-saw",
+      available: true,
+    },
+    {
+      title: "Winged Eyeball — Skateboard Deck",
+      desc: "Hand-painted penny board deck. Winged eyeball on teal. Wall art or ride it.",
+      price: "£POA",
+      tag: "FOR SALE",
+      tagColor: "#00E5FF",
+      img: img('skateboard-eyeball.png'),
+      href: "https://your-shopify-store.myshopify.com/products/skateboard-deck",
+      available: true,
+    },
+    {
       title: "Custom Street Sign Commission",
-      desc: "Your character. Your words. Your sign.",
+      desc: "Your character. Your words. Your sign. Bring the brief — PJ does the rest.",
       price: "From £150",
       tag: "COMMISSION",
       tagColor: "#FFD600",
-      href: "https://your-shopify-store.myshopify.com/products/custom-street-sign",
+      img: null,
+      href: "#contact",
       available: true,
     },
     {
-      title: "Original Canvas — Drop 001",
-      desc: "48×36\" aerosol and acrylic on stretched canvas.",
-      price: "£POA",
-      tag: "SOLD OUT",
-      tagColor: "#888",
-      href: "#contact",
-      available: false,
-    },
-    {
-      title: "Helmet Wrap Commission",
-      desc: "Full custom airbrushed helmet — bring your design.",
-      price: "From £250",
+      title: "Painted Mirror Commission",
+      desc: "Custom painted mirrors — pop art, portraits, vintage ads. Any size.",
+      price: "Enquire",
       tag: "COMMISSION",
       tagColor: "#FFD600",
-      href: "https://your-shopify-store.myshopify.com/products/helmet-commission",
-      available: true,
-    },
-    {
-      title: "Mini Canvas Series — Set of 3",
-      desc: "Three 12×12\" originals. Matching style, different pieces.",
-      price: "£POA",
-      tag: "COMING SOON",
-      tagColor: "#00E5FF",
+      img: img('coke-bettyboop-mirror.png'),
       href: "#contact",
-      available: false,
+      available: true,
     },
     {
       title: "Live Event Booking",
-      desc: "Book PJ to paint live at your event or venue.",
+      desc: "Book PJ to paint live at your event, venue, or brand activation.",
       price: "Enquire",
       tag: "BOOKING",
       tagColor: "#00E5FF",
+      img: null,
       href: "#contact",
       available: true,
     },
@@ -301,9 +337,13 @@ function App() {
           </motion.div>
           <div className="gallery-grid">
             {[
-              { src: img('artwork-batman.png'), alt: 'Batman Stop — Bring Coffee — custom street sign', large: true },
-              { src: img('logo-blue.png'),  alt: 'PJ Paintworks — blue logo' },
-              { src: img('logo-gold.png'),  alt: 'PJ Paintworks — gold logo' },
+              { src: img('artwork-batman.png'),       alt: 'Batman STOP — Bring Coffee — custom painted street sign',  large: true },
+              { src: img('gas-stop-sign.png'),         alt: 'GAS FTN STOP — monster street sign' },
+              { src: img('giveway-sign.png'),          alt: 'Fuck the Rules — painted give way road sign' },
+              { src: img('portrait-anarchy.png'),      alt: 'Airbrushed anarchy portrait — framed' },
+              { src: img('mancave-saw.png'),           alt: 'Man Cave — hand-painted saw blade', large: true },
+              { src: img('skateboard-eyeball.png'),    alt: 'Winged eyeball — hand-painted skateboard deck' },
+              { src: img('coke-bettyboop-mirror.png'), alt: 'Coca-Cola x Betty Boop — painted mirror' },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -350,9 +390,15 @@ function App() {
                 <div className="shop-card-tag" style={{ '--tag-color': item.tagColor }}>
                   {item.tag}
                 </div>
-                <div className="shop-card-icon">
-                  <ShoppingBag size={28} strokeWidth={1.5} />
-                </div>
+                {item.img ? (
+                  <div className="shop-card-img">
+                    <img src={item.img} alt={item.title} loading="lazy" />
+                  </div>
+                ) : (
+                  <div className="shop-card-icon">
+                    <ShoppingBag size={28} strokeWidth={1.5} />
+                  </div>
+                )}
                 <h3 className="shop-card-title">{item.title}</h3>
                 <p className="shop-card-desc">{item.desc}</p>
                 <div className="shop-card-footer">
