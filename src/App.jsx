@@ -214,6 +214,36 @@ function App() {
       available: true,
     },
     {
+      title: "Jason Voorhees — Skateboard Deck",
+      desc: "Airbrushed Jason with screaming victims. Full board, wall-ready.",
+      price: "£10",
+      tag: "FOR SALE",
+      tagColor: "#FF2D55",
+      img: img('skateboard-jason.png'),
+      href: "https://your-shopify-store.myshopify.com/products/jason-skateboard",
+      available: true,
+    },
+    {
+      title: "Dark Portrait — Red Drips Deck",
+      desc: "Airbrushed dark portrait with blood-red drips. Full skateboard deck.",
+      price: "£POA",
+      tag: "FOR SALE",
+      tagColor: "#FF2D55",
+      img: img('skateboard-portrait-red.png'),
+      href: "https://your-shopify-store.myshopify.com/products/portrait-red-deck",
+      available: true,
+    },
+    {
+      title: "Headache Tool — Painted Sledgehammer",
+      desc: "\"One 5 Hit\" hand-painted sledgehammer. Fairground lettering, fully painted handle.",
+      price: "£POA",
+      tag: "FOR SALE",
+      tagColor: "#FFD600",
+      img: img('hammer-headache.png'),
+      href: "https://your-shopify-store.myshopify.com/products/headache-hammer",
+      available: true,
+    },
+    {
       title: "Live Event Booking",
       desc: "Book PJ to paint live at your event, venue, or brand activation.",
       price: "Enquire",
@@ -337,13 +367,16 @@ function App() {
           </motion.div>
           <div className="gallery-grid">
             {[
-              { src: img('artwork-batman.png'),       alt: 'Batman STOP — Bring Coffee — custom painted street sign',  large: true },
-              { src: img('gas-stop-sign.png'),         alt: 'GAS FTN STOP — monster street sign' },
-              { src: img('giveway-sign.png'),          alt: 'Fuck the Rules — painted give way road sign' },
-              { src: img('portrait-anarchy.png'),      alt: 'Airbrushed anarchy portrait — framed' },
-              { src: img('mancave-saw.png'),           alt: 'Man Cave — hand-painted saw blade', large: true },
-              { src: img('skateboard-eyeball.png'),    alt: 'Winged eyeball — hand-painted skateboard deck' },
-              { src: img('coke-bettyboop-mirror.png'), alt: 'Coca-Cola x Betty Boop — painted mirror' },
+              { src: img('artwork-batman.png'),            alt: 'Batman STOP — Bring Coffee — custom painted street sign', large: true },
+              { src: img('gas-stop-sign.png'),             alt: 'GAS FTN STOP — monster street sign' },
+              { src: img('giveway-sign.png'),              alt: 'Fuck the Rules — painted give way road sign' },
+              { src: img('skateboard-portrait-red.png'),   alt: 'Dark portrait with red drips — painted skateboard deck', large: true },
+              { src: img('skateboard-jason.png'),          alt: 'Jason Voorhees — airbrushed skateboard deck' },
+              { src: img('skateboard-eyeball.png'),        alt: 'Winged eyeball — hand-painted skateboard deck' },
+              { src: img('hammer-headache.png'),           alt: 'One 5 Hit Headache Tool — painted sledgehammer' },
+              { src: img('portrait-anarchy.png'),          alt: 'Airbrushed anarchy portrait — framed' },
+              { src: img('mancave-saw.png'),               alt: 'Man Cave — hand-painted saw blade', large: true },
+              { src: img('coke-bettyboop-mirror.png'),     alt: 'Coca-Cola x Betty Boop — painted mirror' },
             ].map((item, i) => (
               <motion.div
                 key={i}
