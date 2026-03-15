@@ -24,6 +24,16 @@ function App() {
   const [commError, setCommError]     = useState(false)
   const fileRef = useRef(null)
 
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const closeMenu = () => setMenuOpen(false)
+
+  // Lock body scroll when menu open
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [menuOpen])
+
   const { sceneLoaded, setAnimationsReady, setFinished } = useAppStore()
 
   useEffect(() => {
@@ -155,25 +165,25 @@ function App() {
     {
       title: "Headache Tool — Painted Sledgehammer",
       desc: '"One 5 Hit" hand-painted sledgehammer. Fairground lettering, fully painted handle.',
-      price: "£POA", tag: "FOR SALE", tagColor: "#FFD600", sold: false,
+      price: "£POA", tag: "FOR SALE", tagColor: "#C9A96E", sold: false,
       img: img('hammer-headache.png'), href: "#commission",
     },
     {
       title: "Custom Street Sign Commission",
       desc: "Your character. Your words. Your sign. Bring the brief — PJ does the rest.",
-      price: "From £150", tag: "COMMISSION", tagColor: "#FFD600", sold: false,
+      price: "From £150", tag: "COMMISSION", tagColor: "#C9A96E", sold: false,
       img: null, href: "#commission",
     },
     {
       title: "Painted Mirror Commission",
       desc: "Custom painted mirrors — pop art, portraits, vintage ads. Any size.",
-      price: "Enquire", tag: "COMMISSION", tagColor: "#FFD600", sold: false,
+      price: "Enquire", tag: "COMMISSION", tagColor: "#C9A96E", sold: false,
       img: img('coke-bettyboop-mirror.png'), href: "#commission",
     },
     {
       title: "Live Event Booking",
       desc: "Book PJ to paint live at your event, venue, or brand activation.",
-      price: "Enquire", tag: "BOOKING", tagColor: "#00E5FF", sold: false,
+      price: "Enquire", tag: "BOOKING", tagColor: "#C9A96E", sold: false,
       img: null, href: "#commission",
     },
   ]
@@ -199,19 +209,34 @@ function App() {
     <div className="app">
 
       {/* ── Nav ── */}
-      <nav className={`nav${scrolled ? ' scrolled' : ''}`}>
+      <nav className={`nav${scrolled ? ' scrolled' : ''}${menuOpen ? ' nav--open' : ''}`}>
         <div className="nav-container">
           <div className="nav-logo">
             <img src={img('logo-blue.png')} alt="PJ Paintworks" className="nav-logo-icon" />
             <span className="nav-logo-text">PJ Paintworks</span>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {/* Desktop links */}
+          <div className="nav-links-desktop">
             <a href="#about"      className="nav-link">About</a>
             <a href="#shop"       className="nav-link">Shop</a>
             <a href="#gallery"    className="nav-link">Gallery</a>
             <a href="#commission" className="nav-cta">Commission a Piece <ArrowRight size={14} /></a>
           </div>
+          {/* Hamburger */}
+          <button className={`hamburger${menuOpen ? ' hamburger--open' : ''}`} onClick={() => setMenuOpen(o => !o)} aria-label="Menu">
+            <span /><span /><span />
+          </button>
         </div>
+        {/* Mobile nav overlay */}
+        {menuOpen && (
+          <div className="mobile-nav">
+            <a href="#about"      className="mobile-nav-link" onClick={closeMenu}>About</a>
+            <a href="#shop"       className="mobile-nav-link" onClick={closeMenu}>Shop</a>
+            <a href="#gallery"    className="mobile-nav-link" onClick={closeMenu}>Gallery</a>
+            <a href="#services"   className="mobile-nav-link" onClick={closeMenu}>Services</a>
+            <a href="#commission" className="mobile-nav-cta"  onClick={closeMenu}>Commission a Piece <ArrowRight size={16} /></a>
+          </div>
+        )}
       </nav>
 
       {/* ── Hero ── */}
