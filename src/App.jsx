@@ -14,6 +14,92 @@ import './App.css'
 const BASE = import.meta.env.BASE_URL
 const img  = (name) => `${BASE}images/${name}`
 
+const SLIDES = [
+  { src: img('artwork-batman.png'),          alt: 'Batman STOP Bring Coffee sign' },
+  { src: img('skateboard-eyeball.png'),      alt: 'Winged eyeball hand-painted skateboard deck' },
+  { src: img('giveway-sign.png'),            alt: 'Painted give way road sign' },
+  { src: img('skateboard-portrait-red.png'), alt: 'Dark portrait red drips skateboard deck' },
+  { src: img('gas-stop-sign.png'),           alt: 'GAS FTN STOP monster street sign' },
+  { src: img('skateboard-jason.png'),        alt: 'Jason Voorhees airbrushed skateboard deck' },
+  { src: img('hammer-headache.png'),         alt: 'One 5 Hit painted sledgehammer' },
+  { src: img('portrait-anarchy.png'),        alt: 'Airbrushed anarchy portrait framed' },
+  { src: img('mancave-saw.png'),             alt: 'Man Cave hand-painted saw blade' },
+  { src: img('coke-bettyboop-mirror.png'),   alt: 'Coca-Cola x Betty Boop painted mirror' },
+]
+
+function GallerySlideshow() {
+  const [current, setCurrent] = useState(0)
+  const timerRef              = useRef(null)
+  const touchStartX           = useRef(null)
+  const n = SLIDES.length
+
+  const go = (next) => setCurrent((next + n) % n)
+  const prev = () => go(current - 1)
+  const next = () => go(current + 1)
+
+  useEffect(() => {
+    timerRef.current = setInterval(() => go(current + 1), 3200)
+    return () => clearInterval(timerRef.current)
+  }, [current])
+
+  const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX }
+  const onTouchEnd   = (e) => {
+    if (touchStartX.current === null) return
+    const diff = touchStartX.current - e.changedTouches[0].clientX
+    if (Math.abs(diff) > 40) diff > 0 ? next() : prev()
+    touchStartX.current = null
+  }
+
+  // position each card relative to current
+  const getStyle = (i) => {
+    let offset = i - current
+    // wrap around for shortest path
+    if (offset > n / 2)  offset -= n
+    if (offset < -n / 2) offset += n
+
+    const abs = Math.abs(offset)
+    if (abs > 2) return { display: 'none' }
+
+    const tx      = offset * 220
+    const ry      = offset * -42
+    const scale   = abs === 0 ? 1 : abs === 1 ? 0.78 : 0.6
+    const z       = abs === 0 ? 100 : abs === 1 ? 50 : 10
+    const opacity = abs === 0 ? 1 : abs === 1 ? 0.75 : 0.45
+
+    return {
+      transform: `translateX(${tx}px) rotateY(${ry}deg) scale(${scale})`,
+      zIndex: z,
+      opacity,
+    }
+  }
+
+  return (
+    <div className="coverflow" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>
+      <div className="coverflow-stage">
+        {SLIDES.map((slide, i) => (
+          <div
+            key={i}
+            className={`coverflow-card${i === current ? ' active' : ''}`}
+            style={getStyle(i)}
+            onClick={() => i !== current && go(i)}
+          >
+            <img src={slide.src} alt={slide.alt} loading="lazy" />
+          </div>
+        ))}
+      </div>
+
+      <button className="slideshow-arrow slideshow-arrow--prev" onClick={prev} aria-label="Previous">&#8592;</button>
+      <button className="slideshow-arrow slideshow-arrow--next" onClick={next} aria-label="Next">&#8594;</button>
+
+      <div className="slideshow-dots">
+        {SLIDES.map((_, i) => (
+          <button key={i} className={`slideshow-dot${i === current ? ' active' : ''}`} onClick={() => go(i)} aria-label={`Slide ${i + 1}`} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function App() {
   const [scrolled, setScrolled]           = useState(false)
   const [menuOpen, setMenuOpen]           = useState(false)
@@ -308,26 +394,7 @@ function App() {
             <p className="section-label">The Work</p>
             <h2 className="section-title">Recent pieces</h2>
           </motion.div>
-          <div className="gallery-grid">
-            {[
-              { src: img('artwork-batman.png'),          alt: 'Batman STOP Bring Coffee sign' },
-              { src: img('gas-stop-sign.png'),           alt: 'GAS FTN STOP monster street sign' },
-              { src: img('giveway-sign.png'),            alt: 'Painted give way road sign' },
-              { src: img('skateboard-portrait-red.png'), alt: 'Dark portrait red drips skateboard deck' },
-              { src: img('skateboard-jason.png'),        alt: 'Jason Voorhees airbrushed skateboard deck' },
-              { src: img('skateboard-eyeball.png'),      alt: 'Winged eyeball hand-painted skateboard deck' },
-              { src: img('hammer-headache.png'),         alt: 'One 5 Hit Headache Tool painted sledgehammer' },
-              { src: img('portrait-anarchy.png'),        alt: 'Airbrushed anarchy portrait framed' },
-              { src: img('mancave-saw.png'),             alt: 'Man Cave hand-painted saw blade' },
-              { src: img('coke-bettyboop-mirror.png'),   alt: 'Coca-Cola x Betty Boop painted mirror' },
-            ].map((item, i) => (
-              <motion.div key={i} className="gallery-item"
-                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }} transition={{ duration: 0.5, delay: (i % 3) * 0.1 }}>
-                <img src={item.src} alt={item.alt} loading="lazy" />
-              </motion.div>
-            ))}
-          </div>
+          <GallerySlideshow />
           <motion.p className="gallery-note"
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.3 }}>
             More work dropping regularly — follow <a href="https://instagram.com/pjpaintworks" target="_blank" rel="noopener noreferrer">@pjpaintworks</a> on Instagram
